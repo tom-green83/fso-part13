@@ -8,7 +8,7 @@ content-type: application/json
 {
     "title": "Blog",
     "author": "Username",
-    # "url": "blogger.com",
+    "url": "blogger.com",
     "likes": 10
 }
 
@@ -20,5 +20,25 @@ PUT http://localhost:3001/api/blogs/3 HTTP/1.1
 content-type: application/json
 
 {
-    # "likes": 0
+    "likes": 0
+}
+
+### Get users
+GET http://localhost:3001/api/users HTTP/1.1
+
+### Create a user
+POST http://localhost:3001/api/users/ HTTP/1.1
+content-type: application/json
+
+{
+    "username": "username03",
+    "name": "name03"
+}
+
+### Change username
+PUT http://localhost:3001/api/users/username01 HTTP/1.1
+content-type: application/json
+
+{
+    "username": "username00"
 }
