@@ -13,10 +13,15 @@ router.post('/', tokenExtractor, async (req, res) => {
   res.json(blog)
 })
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', tokenExtractor, async (req, res) => {
   const blog = await Blog.findByPk(req.params.id)
-  blog.destroy()
-  res.status(204).end()
+  if (blog.userId === req.decodedToken.id) {
+    blog.destroy()
+    res.status(204).end()
+  } else
+  {
+    res.status(400).send({ error: 'user is not creator of blog' })
+  }
 })
 
 router.put('/:id', async (req, res) => {
