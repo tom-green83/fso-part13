@@ -21,9 +21,20 @@ router.post('/', async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
   try {
-    const blogToDelete = await Blog.findByPk(req.params.id)
-    blogToDelete.destroy()
+    const blog = await Blog.findByPk(req.params.id)
+    blog.destroy()
     res.status(204).end()
+  } catch (error) {
+    return res.status(400).json({ error })
+  }
+})
+
+router.put('/:id', async (req, res) => {
+  try {
+    const blog = await Blog.findByPk(req.params.id)
+    blog.likes = req.body.likes
+    blog.save()
+    res.json(blog)
   } catch (error) {
     return res.status(400).json({ error })
   }
