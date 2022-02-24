@@ -1,0 +1,16 @@
+### Get blogs
+GET http://localhost:3001/api/blogs HTTP/1.1
+
+### Add blog
+POST http://localhost:3001/api/blogs/ HTTP/1.1
+content-type: application/json
+
+{
+    "title": "Blog",
+    "author": "Username",
+    "url": "blogger.com",
+    "likes": 10
+}
+
+### Delete a blog
+DELETE http://localhost:3001/api/blogs/4 HTTP/1.1
