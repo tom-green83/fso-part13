@@ -3,6 +3,7 @@ GET http://localhost:3001/api/blogs HTTP/1.1
 
 ### Add blog
 POST http://localhost:3001/api/blogs/ HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXJuYW1lMDFAZW1haWwuY29tIiwiaWQiOjEsImlhdCI6MTY0NTczNDQxOX0.HSduh6niwsn77326gpWm4RHI2oKYc-uJ8ZyJYXyvbP0
 content-type: application/json
 
 {
@@ -36,9 +37,18 @@ content-type: application/json
 }
 
 ### Change username
-PUT http://localhost:3001/api/users/username01 HTTP/1.1
+PUT http://localhost:3001/api/users/username00 HTTP/1.1
 content-type: application/json
 
 {
-    "username": "username00"
+    "username": "username01@email.com"
+}
+
+### Login as username01@emai.com
+POST http://localhost:3001/api/login/ HTTP/1.1
+content-type: application/json
+
+{
+    "username": "username01@email.com",
+    "password": "secret"
 }
