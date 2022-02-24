@@ -10,7 +10,10 @@ class User extends Model {}User.init({
   username: {
     type: DataTypes.TEXT,
     unique: true,
-    allowNull: false
+    allowNull: false,
+    validate: {
+      isEmail: true
+    }
   },
   name: {
     type: DataTypes.TEXT,
