@@ -1,5 +1,6 @@
 require('dotenv').config()
 const express = require('express')
+require('express-async-errors')
 
 const { PORT } = require('./utils/config')
 const { connectToDatabase } = require('./utils/db')
