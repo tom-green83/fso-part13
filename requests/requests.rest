@@ -10,7 +10,7 @@ content-type: application/json
     "title": "Blog",
     "author": "react",
     "url": "blogger.com",
-    "likes": 10
+    "likes": 11
 }
 
 ### Delete a blog
@@ -23,7 +23,7 @@ PUT http://localhost:3001/api/blogs/3 HTTP/1.1
 content-type: application/json
 
 {
-    "likes": 0
+    "likes": 40
 }
 
 ### Get users
