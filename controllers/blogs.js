@@ -3,7 +3,11 @@ const { Blog, User } = require('../models/index')
 const { tokenExtractor } = require('../utils/middleware')
 
 router.get('/', async (req, res) => {
-  const blogs = await Blog.findAll()
+  const blogs = await Blog.findAll({
+    include: {
+      model: User
+    }
+  })
   res.json(blogs)
 })
 
