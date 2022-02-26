@@ -34,8 +34,8 @@ POST http://localhost:3001/api/users/ HTTP/1.1
 content-type: application/json
 
 {
-    "username": "username04",
-    "name": "name04"
+    "username": "username01@email.com",
+    "name": "name01"
 }
 
 ### Change username
