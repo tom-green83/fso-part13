@@ -1,10 +1,11 @@
 const router = require('express').Router()
-const { Blog, User } = require('../models/index')
+const { Blog, User, Readinglist } = require('../models/index')
 
 router.get('/', async (req, res) => {
   const users = await User.findAll({
     include: {
-      model: Blog
+      model: Blog,
+      attributes: { exclude: ['userId'] }
     }
   })
   res.json(users)
@@ -24,6 +25,36 @@ router.put('/:username', async (req, res) => {
   user.username = req.body.username
   user.save()
   res.json(user)
+})
+
+router.get('/:id', async (req, res) => {
+  const user = await User.findByPk(req.params.id, {
+    attributes: { exclude: ['id', 'createdAt', 'updatedAt']},
+    include: [
+      {
+        model: Readinglist,
+        attributes: { exclude: ['blogId', 'userId']},
+        include: {
+          model: Blog,
+          attributes: { exclude: ['userId', 'createdAt', 'updatedAt']}
+        }
+      }
+    ]
+  })
+
+  const readings = user.readinglists.map(readinglist => {
+    const reading = readinglist.blog.dataValues
+    reading.readinglists = [{id: readinglist.id, read: readinglist.read }]
+    return reading
+  })
+
+  const formattedUser = {
+    name: user.name,
+    username: user.username,
+    readings: readings
+  }
+
+  res.json(formattedUser)
 })
 
 module.exports = router
