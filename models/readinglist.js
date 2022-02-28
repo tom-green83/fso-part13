@@ -17,7 +17,7 @@ class Readinglist extends Model {}Readinglist.init({
   },
   read: {
     type: DataTypes.BOOLEAN,
-    default: false
+    defaultValue: false
   }
 }, {
   sequelize,

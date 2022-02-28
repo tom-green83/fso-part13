@@ -61,3 +61,12 @@ GET http://localhost:3001/api/blogs?search=ReACT HTTP/1.1
 
 ### Get list of authors
 GET http://localhost:3001/api/authors HTTP/1.1
+
+### Add entry to reading lists
+POST http://localhost:3001/api/readinglists/ HTTP/1.1
+content-type: application/json
+
+{
+    "blogId": "1",
+    "userId": "1"
+}
