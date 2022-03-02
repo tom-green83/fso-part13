@@ -1,7 +1,7 @@
 const { Op } = require('sequelize')
 const router = require('express').Router()
-const { Blog, User } = require('../models/index')
-const { tokenExtractor } = require('../utils/middleware')
+const { Blog, User, Readinglist } = require('../models/index')
+const { tokenExtractor, sessionValidator } = require('../utils/middleware')
 
 
 router.get('/', async (req, res) => {
@@ -28,17 +28,29 @@ router.get('/', async (req, res) => {
   res.json(blogs)
 })
 
-router.post('/', tokenExtractor, async (req, res) => {
+router.post('/', sessionValidator, tokenExtractor, async (req, res) => {
   const user = await User.findByPk(req.decodedToken.id)
   const blog = await Blog.create( {...req.body, userId: user.id })
   res.json(blog)
 })
 
-router.delete('/:id', tokenExtractor, async (req, res) => {
+router.delete('/:id', sessionValidator, tokenExtractor, async (req, res) => {
+  console.log('delete endpoint')
   const blog = await Blog.findByPk(req.params.id)
   if (blog.userId === req.decodedToken.id) {
-    blog.destroy()
-    res.status(204).end()
+    const readinglist = await Readinglist.findOne({
+      where: {
+        blogId: blog.id
+      }
+    })
+    if (readinglist) {
+      res.status(400).send({ error: 'cannot delete blog which exists in readinglist' })
+
+    } else {
+      blog.destroy()
+      res.status(204).end()
+    }
+
   } else
   {
     res.status(400).send({ error: 'user is not creator of blog' })

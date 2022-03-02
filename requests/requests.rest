@@ -1,9 +1,15 @@
+@baseUrl = http://localhost:3001
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXJuYW1lMDFAZW1haWwuY29tIiwiaWQiOjEsImlhdCI6MTY0NjI1NzY4M30.gNZYaMxs14hFXzFxGosS-vgGomaqmhuah1LSSnEzBLg
+@username = "username01@email.com"
+@name = "name01"
+@password = "secret"
+
 ### Get blogs
-GET http://localhost:3001/api/blogs HTTP/1.1
+GET {{baseUrl}}/api/blogs HTTP/1.1
 
 ### Add blog
-POST http://localhost:3001/api/blogs/ HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXJuYW1lMDFAZW1haWwuY29tIiwiaWQiOjEsImlhdCI6MTY0NTczNDQxOX0.HSduh6niwsn77326gpWm4RHI2oKYc-uJ8ZyJYXyvbP0
+POST {{baseUrl}}/api/blogs/ HTTP/1.1
+Authorization: Bearer {{token}}
 content-type: application/json
 
 {
@@ -15,12 +21,11 @@ content-type: application/json
 }
 
 ### Delete a blog
-DELETE http://localhost:3001/api/blogs/3 HTTP/1.1
-# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXJuYW1lMDFAZW1haWwuY29tIiwiaWQiOjEsImlhdCI6MTY0NTczNDQxOX0.HSduh6niwsn77326gpWm4RHI2oKYc-uJ8ZyJYXyvbP0
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXJuYW1lMDJAZW1haWwuY29tIiwiaWQiOjMsImlhdCI6MTY0NTczNjA0M30.VoeoPNYpj51sdgTj1pxYG8SHD_hpMHkdSDKD3c81zgo
+DELETE {{baseUrl}}/api/blogs/5 HTTP/1.1
+Authorization: Bearer {{token}}
 
 ### Update likes of a blog
-PUT http://localhost:3001/api/blogs/3 HTTP/1.1
+PUT {{baseUrl}}/api/blogs/3 HTTP/1.1
 content-type: application/json
 
 {
@@ -28,58 +33,56 @@ content-type: application/json
 }
 
 ### Get users
-GET http://localhost:3001/api/users HTTP/1.1
+GET {{baseUrl}}/api/users HTTP/1.1
 
 ### Create a user
-POST http://localhost:3001/api/users/ HTTP/1.1
+POST {{baseUrl}}/api/users/ HTTP/1.1
+content-type: application/json
+
+{
+    "username": {{username}},
+    "name": {{name}}
+}
+
+### Change username
+PUT {{baseUrl}}/api/users/{{username}} HTTP/1.1
+content-type: application/json
+
+{
+    "username": "username01@email.com"
+}
+
+### Login
+POST {{baseUrl}}/api/login/ HTTP/1.1
 content-type: application/json
 
 {
     "username": "username01@email.com",
-    "name": "name01"
-}
-
-### Change username
-PUT http://localhost:3001/api/users/username02 HTTP/1.1
-content-type: application/json
-
-{
-    "username": "username02@email.com"
-}
-
-### Login
-POST http://localhost:3001/api/login/ HTTP/1.1
-content-type: application/json
-
-{
-    "username": "username02@email.com",
     "password": "secret"
 }
 
 ### Search for blog with react
-GET http://localhost:3001/api/blogs?search=ReACT HTTP/1.1
+GET {{baseUrl}}/api/blogs?search=ReACT HTTP/1.1
 
 ### Get list of authors
-GET http://localhost:3001/api/authors HTTP/1.1
+GET {{baseUrl}}/api/authors HTTP/1.1
 
 ### Add entry to reading lists
-POST http://localhost:3001/api/readinglists/ HTTP/1.1
+POST {{baseUrl}}/api/readinglists/ HTTP/1.1
 content-type: application/json
 
 {
-    "blogId": "2",
+    "blogId": "1",
     "userId": "1"
 }
 
 ### GET info of one user
-GET http://localhost:3001/api/users/1 HTTP/1.1
+GET {{baseUrl}}/api/users/1 HTTP/1.1
 
-### Mark 1st item in reading list as true
-PUT http://localhost:3001/api/readinglists/1 HTTP/1.1
+### Mark 1st item in reading list as true/false
+PUT {{baseUrl}}/api/readinglists/1 HTTP/1.1
 # As user01
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXJuYW1lMDFAZW1haWwuY29tIiwiaWQiOjEsImlhdCI6MTY0NTczNDQxOX0.HSduh6niwsn77326gpWm4RHI2oKYc-uJ8ZyJYXyvbP0
-# As user02
-# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXJuYW1lMDJAZW1haWwuY29tIiwiaWQiOjMsImlhdCI6MTY0NjE1OTA1NX0.jtfzAooU8fZyYNWj8ZSAQbfABqJhtdXuF9z-KzP6rg4
+Authorization: Bearer {{token}}
 content-type: application/json
 
 {
@@ -87,4 +90,9 @@ content-type: application/json
 }
 
 ### GET readinglist of user01 with only read readings
-GET http://localhost:3001/api/users/1?read=true HTTP/1.1
+GET {{baseUrl}}/api/users/1?read=true HTTP/1.1
+
+### DELETE session
+DELETE {{baseUrl}}/api/logout HTTP/1.1
+Authorization: Bearer {{token}}
+

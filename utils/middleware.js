@@ -1,5 +1,7 @@
 const jwt = require('jsonwebtoken')
 const { SECRET } = require('./config')
+const { Session } = require('../models/index')
+
 
 const errorHandler = (error, request, response, next) => {
   if (error.name === 'SequelizeValidationError') {
@@ -21,6 +23,22 @@ const tokenExtractor = (req, res, next) => {
   }
   next()}
 
+const sessionValidator = async (req, res, next) => {
+  const token = req.get('authorization').substring(7)
+
+  const session = await Session.findOne({
+    where: {
+      token
+    }
+  })
+
+  if (!session) {
+    res.status(401).json({ error: 'session invalid' })
+  } else {
+    next()
+  }
+}
+
 module.exports = {
-  errorHandler, tokenExtractor
+  errorHandler, tokenExtractor, sessionValidator
 }
