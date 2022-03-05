@@ -6,13 +6,13 @@ const Session = require('./session')
 User.hasMany(Blog)
 Blog.belongsTo(User)
 
-// Shouldn't redefine associations
-// Blog.belongsToMany(User, { through: Readinglist })
-// User.belongsToMany(Blog, { through: Readinglist })
+// Shouldn't redefine associations without aliases
+User.belongsToMany(Blog, { through: Readinglist, as: 'readings' })
+Blog.belongsToMany(User, { through: Readinglist, as: 'readers' })
 
-Readinglist.belongsTo(User)
+// Readinglist.belongsTo(User)
 Readinglist.belongsTo(Blog)
-User.hasMany(Readinglist)
+// User.hasMany(Readinglist)
 Blog.hasMany(Readinglist)
 
 User.hasMany(Session)

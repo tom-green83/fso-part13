@@ -35,32 +35,22 @@ router.get('/:id', async (req, res) => {
 
   const user = await User.findByPk(req.params.id, {
     attributes: { exclude: ['id', 'createdAt', 'updatedAt']},
-    include: [
-      {
+    include: {
+      model: Blog,
+      as: 'readings',
+      attributes: { exclude: ['userId', 'createdAt', 'updatedAt']},
+      through: {
+        attributes: []
+      },
+      include: {
         model: Readinglist,
-        attributes: { exclude: ['blogId', 'userId']},
         where,
-        include: {
-          model: Blog,
-          attributes: { exclude: ['userId', 'createdAt', 'updatedAt']}
-        }
+        attributes: [ 'read', 'id' ]
       }
-    ]
+    }
   })
 
-  const readings = user.readinglists.map(readinglist => {
-    const reading = readinglist.blog.dataValues
-    reading.readinglists = [{id: readinglist.id, read: readinglist.read }]
-    return reading
-  })
-
-  const formattedUser = {
-    name: user.name,
-    username: user.username,
-    readings: readings
-  }
-
-  res.json(formattedUser)
+  res.json(user)
 })
 
 module.exports = router
